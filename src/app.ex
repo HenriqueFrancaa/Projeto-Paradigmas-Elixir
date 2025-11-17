@@ -6,25 +6,81 @@ defmodule Convertion do
       |> String.to_float()
 
     op =
-      IO.gets("Converter para:\n1. Dólar\n2. Euro\n> ")
+      IO.gets("""
+        === Deseja converter para? ===
+      1. Real -> Dólar
+      2. Real -> Euro
+      3. Dólar -> Real
+      4. Euro -> Real
+      =============================
+      >
+      """)
       |> String.trim()
       |> String.to_integer()
 
     case op do
       1 ->
-        IO.puts("Convertendo para dólar...")
-        IO.puts("R$ #{value} equivale a US$ #{convertDolar(value)}")
+        IO.puts("Convertendo R$ #{value} para dólar...")
+        IO.puts("R$ #{value} equivale a US$ #{convertToDolar(value)}")
 
       2 ->
-        IO.puts("Convertendo para euro...")
-        IO.puts("Resultado: #{convertEuro(value)}")
+        IO.puts("Convertendo R$ #{value} para euro...")
+        IO.puts("R$ #{value} equivale a € #{convertToEuro(value)}")
 
-      _ ->
+      3 ->
+        IO.puts("Convertendo US$ #{value} para Real...")
+        IO.puts("US$ #{value} equivale a R$ #{convertDolarToReal(value)}")
+      4 ->
+        IO.puts("Convertendo € #{value} para Real...")
+        IO.puts("€ #{value} equivale a R$ #{convertEuroToReal(value)}")
+      _->
         IO.puts("Opção inválida!")
     end
   end
-  defp convertDolar(value), do: value / 5.30
-  defp convertEuro(value),  do: value / 6.00
+  # Valores de moedas atualizados(17 de novembro)
+  defp convertToDolar(value), do: value / 5.33
+  defp convertToEuro(value),  do: value / 6.18
+  defp convertDolarToReal(value), do: value / 0.19
+  defp convertEuroToReal(value), do: value / 0.16
+end
+
+defmodule Validate do
+  def option() do
+    op = IO.gets("""
+      === O que deseja validar? ===
+      1. Email
+      2. CPF
+      =============================
+      >
+    """)
+    |> String.trim()
+    |> String.to_integer()
+    case op do
+      1 ->
+        email = IO.gets("Digite o email: ")
+        if(validEmail(email)) do
+          IO.inspect("O email #{email} é válido!")
+        else
+          IO.inspect("O email #{email} é inválido!")
+        end
+      2 ->
+        cpf = IO.gets("Digite o CPF: ")
+        if(validCpf(cpf)) do
+          IO.inspect("O CPF #{cpf} é válido!")
+        else
+          IO.inspect("O CPF #{cpf} é inválido")
+        end
+    end
+
+  end
+
+  defp validEmail(email) do
+    Regex.match?(~r/^[\w._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/, email)
+  end
+
+  defp validCpf(cpf) do
+
+  end
 end
 
 defmodule VectorStatistics do
@@ -43,7 +99,8 @@ defmodule VectorStatistics do
         3. Mínimo
         4. Máximo
         ==========================================
-        """
+        >
+          """
       )
       |> String.trim()
       |> String.to_integer()
@@ -103,7 +160,7 @@ end
 
 IO.puts("""
 === Bem-vindo para a aplicação ===
-1. Conversão de real para dólar ou euro
+1. Conversão de moedas
 2. Verificação de CPF/Email
 3. Estatísticas de um vetor númerico
 0. Finalizar
@@ -122,7 +179,7 @@ case op do
 
   2 ->
     IO.puts("Você escolheu a opção 2")
-
+    Validate.option()
   3 ->
     IO.puts("Você escolheu a opção 3")
     VectorStatistics.initVector()

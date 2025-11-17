@@ -1,5 +1,6 @@
 defmodule Convertion do
   def option() do
+  try do
     value =
       IO.gets("Digite o valor: ")
       |> String.trim()
@@ -7,7 +8,7 @@ defmodule Convertion do
 
     op =
       IO.gets("""
-        === Deseja converter para? ===
+      === Deseja converter para? ===
       1. Real -> Dólar
       2. Real -> Euro
       3. Dólar -> Real
@@ -30,13 +31,26 @@ defmodule Convertion do
       3 ->
         IO.puts("Convertendo US$ #{value} para Real...")
         IO.puts("US$ #{value} equivale a R$ #{convertDolarToReal(value)}")
+
       4 ->
         IO.puts("Convertendo € #{value} para Real...")
         IO.puts("€ #{value} equivale a R$ #{convertEuroToReal(value)}")
-      _->
+
+      _ ->
         IO.puts("Opção inválida!")
     end
+
+  rescue
+    ArgumentError ->
+      IO.puts("\nERRO: Você digitou um valor inválido! Tente novamente.")
+      option()
+
+    _e ->
+      IO.puts("\nERRO desconhecido.")
+      option()
   end
+end
+
   # Valores de moedas atualizados(17 de novembro)
   defp convertToDolar(value), do: value / 5.33
   defp convertToEuro(value),  do: value / 6.18

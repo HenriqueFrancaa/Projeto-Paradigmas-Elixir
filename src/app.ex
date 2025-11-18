@@ -1,30 +1,51 @@
-IO.puts("""
-=== Bem-vindo para a aplicação ===
-1. Conversão de moedas
-2. Verificação de CPF/Email
-3. Estatísticas de um vetor númerico
-0. Finalizar
-==================================
-""")
+defmodule App do
+  def exibirMenu do
+    IO.puts("""
+    ========== MENU DE OPÇÕES ==========
+    1. Conversão de moedas
+    2. Verificação de CPF/Email
+    3. Estatísticas de um vetor númerico
+    0. Finalizar
+    ====================================
+    """)
 
-op =
-  IO.gets("> ")
-  |> String.trim()
-  |> String.to_integer()
+    op =
+      IO.gets("> ")
+      |> String.trim()
 
-case op do
-  1 ->
-    IO.puts("Você escolheu a opção 1")
-    Convertion.option()
+    try do
+      op = String.to_integer(op)
 
-  2 ->
-    IO.puts("Você escolheu a opção 2")
-    Validate.option()
+      case op do
+        1 ->
+          IO.puts("Você escolheu a opção 1")
+          Convertion.option()
 
-  3 ->
-    IO.puts("Você escolheu a opção 3")
-    VectorStatistics.initVector()
+        2 ->
+          IO.puts("Você escolheu a opção 2")
+          Validate.option()
 
-  0 ->
-    IO.puts("Finalizando")
+        3 ->
+          IO.puts("Você escolheu a opção 3")
+          VectorStatistics.initVector()
+
+        0 ->
+          IO.puts("======== Finalizando Aplicação =========")
+
+        _ ->
+          IO.puts("Você selecionou uma opção inválida!")
+      end
+
+      if op != 0 do
+        IO.puts("\e[H\e[2J")
+        exibirMenu()
+      end
+    rescue
+      ArgumentError ->
+        IO.puts("Você selecionou uma opção inválida")
+        exibirMenu()
+    end
+  end
 end
+
+App.exibirMenu()

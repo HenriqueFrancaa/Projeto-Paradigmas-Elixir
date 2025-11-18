@@ -1,19 +1,21 @@
 defmodule Validate do
   def option() do
+    IO.puts("""
+    === O que deseja validar? ===
+    1. Email
+    2. CPF
+    0. Sair
+    =============================
+    """)
+
     op =
-      IO.gets("""
-      === O que deseja validar? ===
-      1. Email
-      2. CPF
-      =============================
-      >
-      """)
+      IO.gets("> ")
       |> String.trim()
       |> String.to_integer()
 
     case op do
       1 ->
-        email = IO.gets("Digite o email: ") |> String.trim()
+        email = IO.gets("> Digite o email: ") |> String.trim()
 
         if(validEmail(email)) do
           IO.puts("O email #{email} é válido!")
@@ -29,6 +31,16 @@ defmodule Validate do
         else
           IO.puts("O CPF #{cpf} é inválido")
         end
+
+      0 ->
+        IO.puts("Saindo...")
+
+      _ ->
+        IO.puts("Opção inválida!")
+    end
+
+    if op != 0 do
+      option()
     end
   end
 

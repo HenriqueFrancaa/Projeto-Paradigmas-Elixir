@@ -6,16 +6,17 @@ defmodule VectorStatistics do
   end
 
   defp options(vector) do
-    op =
-      IO.gets("""
+IO.puts("""
       === O que deseja saber sobre o vetor? ===
       1. Média
       2. Mediana
       3. Mínimo
       4. Máximo
+      0. Sair
       ==========================================
-      >
       """)
+    op =
+      IO.gets("> ")
       |> String.trim()
       |> String.to_integer()
 
@@ -31,6 +32,16 @@ defmodule VectorStatistics do
 
       4 ->
         IO.puts("O maior valor é: #{getMax(vector)}")
+
+      0 ->
+        IO.puts("Saindo...")
+
+      _ ->
+        IO.puts("Opção inválida!")
+    end
+
+    if op != 0 do
+      options(vector)
     end
   end
 

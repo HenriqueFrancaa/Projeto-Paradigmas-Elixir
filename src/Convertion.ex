@@ -1,57 +1,67 @@
 defmodule Convertion do
   def option() do
     try do
-      input =
-        IO.gets("Digite o valor: ") |> String.trim()
-
-      value =
-        if String.contains?(input, ".") do
-          String.to_float(input)
-        else
-          String.to_integer(input) / 1
-        end
-
       op =
         IO.gets("""
         === Deseja converter para? ===
-        1. Real -> Dólar
-        2. Real -> Euro
-        3. Dólar -> Real
-        4. Euro -> Real
+        1. Real  ->  Dólar
+        2. Real  ->  Euro
+        3. Dólar ->  Real
+        4. Euro  ->  Real
+        0. Sair
         =============================
-        >
         """)
         |> String.trim()
         |> String.to_integer()
 
       case op do
+        0 ->
+          IO.puts("Saindo...")
+          # para terminar sem recursão
+          :ok
+
         1 ->
+          value = read_value()
           IO.puts("Convertendo R$ #{format(value)} para dólar...")
           IO.puts("R$ #{format(value)} equivale a US$ #{format(convertToDolar(value))}")
+          option()
 
         2 ->
+          value = read_value()
           IO.puts("Convertendo R$ #{format(value)} para euro...")
           IO.puts("R$ #{format(value)} equivale a € #{format(convertToEuro(value))}")
+          option()
 
         3 ->
+          value = read_value()
           IO.puts("Convertendo US$ #{format(value)} para Real...")
           IO.puts("US$ #{format(value)} equivale a R$ #{format(convertDolarToReal(value))}")
+          option()
 
         4 ->
+          value = read_value()
           IO.puts("Convertendo € #{format(value)} para Real...")
           IO.puts("€ #{format(value)} equivale a R$ #{format(convertEuroToReal(value))}")
+          option()
 
         _ ->
           IO.puts("Opção inválida!")
+          option()
       end
     rescue
       ArgumentError ->
         IO.puts("\nERRO: Você digitou um valor inválido! Tente novamente.")
         option()
+    end
+  end
 
-      _e ->
-        IO.puts("\nERRO desconhecido.")
-        option()
+  defp read_value() do
+    input = IO.gets("> Digite o valor: ") |> String.trim()
+
+    if String.contains?(input, ".") do
+      String.to_float(input)
+    else
+      String.to_integer(input) * 1.0
     end
   end
 

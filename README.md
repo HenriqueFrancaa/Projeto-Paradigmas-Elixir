@@ -40,14 +40,13 @@ cd Projeto-Paradigmas-Elixir
 
 3. Execute a aplicação através do arquivo principal:
 ```bash
-elixir src/app.ex
+elixirc src/*.ex
 ```
 
 ## Equipe
 - [Eduardo Braga](https://github.com/Dudubraga)
 - [Henrique Franca](https://github.com/HenriqueFrancaa)
 - [Isabela Medeiros](https://github.com/belamedeirosbl)
-- [João Magalhães](https://github.com/)
 - [Júlia Galvão](https://github.com/juliaavilelaa)
 - [Rafael Angelim](https://github.com/rafaelsampa)
 - [Rafael Sampaio](https://github.com/RafaelAngelim)
